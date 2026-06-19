@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dumrmo2083uci"]
+
+[ext_resource type="PackedScene" uid="uid://5vdpfdtf30qj" path="res://player.tscn" id="1_3h184"]
+[ext_resource type="Script" uid="uid://o8ocnmbb2ehs" path="res://main.gd" id="1_cojph"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f3bkm"]
+size = Vector3(50, 2, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f3bkm"]
+size = Vector3(50, 2, 50)
+
+[node name="Root" type="Node" unique_id=587381975]
+script = ExtResource("1_cojph")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1975289298]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1415282636]
+shape = SubResource("BoxShape3D_f3bkm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=150849582]
+mesh = SubResource("BoxMesh_f3bkm")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=958903360]
+transform = Transform3D(1, 0, 0, 0, -0.70710677, 0.70710677, 0, -0.70710677, -0.70710677, 0, 30, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=474677334 instance=ExtResource("1_3h184")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0597868, 0)
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=204972563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.536743e-07, 6.447667, 5.682301)
+
+[node name="Camera3D" type="Camera3D" parent="Marker3D" unique_id=61148258]
+transform = Transform3D(1, 0, 0, 0, 0.7446145, 0.6674948, 0, -0.6674948, 0.7446145, 9.536743e-07, 0.08917713, 0.046055317)

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://5vdpfdtf30qj"]
+
+[ext_resource type="Script" uid="uid://cwkmghkwixi3k" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://dintsn5npwr5r" path="res://assets/arrow.png" id="2_onrkg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_sh265"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4flbx"]
+albedo_color = Color(0.32, 0.27477333, 0.15040001, 1)
+metallic_specular = 0.15
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sh265"]
+
+[node name="Player" type="CharacterBody3D" unique_id=474677334]
+script = ExtResource("1_4flbx")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
+mesh = SubResource("SphereMesh_sh265")
+surface_material_override/0 = SubResource("StandardMaterial3D_4flbx")
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="." unique_id=1552410295]
+shape = SubResource("SphereShape3D_sh265")
+
+[node name="DirectionIndicator" type="Sprite3D" parent="." unique_id=273762064]
+centered = false
+offset = Vector2(-128, 0)
+axis = 1
+texture = ExtResource("2_onrkg")
