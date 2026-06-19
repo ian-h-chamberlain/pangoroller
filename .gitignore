@@ -1,4 +1,5 @@
 /android/
+/exports/
 
 # Godot 4.2+ specific ignores
 ~*.dll
