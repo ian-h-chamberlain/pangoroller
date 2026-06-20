@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://c0xn3do08j8ma"]
 
+[ext_resource type="ArrayMesh" uid="uid://ccqvmge142tdk" path="res://assets/track_mesh.res" id="1_vonw3"]
+[ext_resource type="Shape3D" uid="uid://derefwtwx8kvn" path="res://assets/track_collision.res" id="2_oi3di"]
+
 [sub_resource type="Curve3D" id="Curve3D_5xgho"]
 closed = true
 bake_interval = 0.02
@@ -27,6 +30,12 @@ path_u_distance = 1.0
 path_joined = true
 smooth_faces = true
 metadata/_edit_lock_ = true
+
+[node name="CSGBakedMeshInstance3D" type="MeshInstance3D" parent="." unique_id=823521909]
+mesh = ExtResource("1_vonw3")
+
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="." unique_id=327540495]
+shape = ExtResource("2_oi3di")
 
 [node name="TrackPath" type="Path3D" parent="." unique_id=1041749603]
 transform = Transform3D(44.812523, 0.39967698, 0, -0.39967698, 44.812523, 0, 0, 0, 44.814304, -0.04629135, -0.08053017, 0.07133812)
