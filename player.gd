@@ -1,7 +1,11 @@
 extends CharacterBody3D
 
-@export var acceleration = 0.5
+@export var acceleration = 0.75
+@export var slowing_coefficient = 2;
 @export var acceleration_direction =  Direction.EAST
+
+signal direction_changed(is_horizontal: bool)
+signal accelerated(action_name: StringName, is_slowing: bool)
 
 enum Direction {
     NORTH,
@@ -10,7 +14,7 @@ enum Direction {
 
 const MOVEMENT_ACTIONS = ["movement_0", "movement_1", "movement_2", "movement_3"]
 
-var last_action_index = -1
+var last_action_index = null
 
 @onready var direction_indicator = $DirectionIndicator as Node3D
 
@@ -25,21 +29,26 @@ func _physics_process(delta):
             Direction.EAST:
                 self.acceleration_direction = Direction.NORTH
 
+        direction_changed.emit(self.acceleration_direction == Direction.EAST)
+
         print("Changing acceleration_direction: ", self.acceleration_direction)
 
     var speed_change = null
     for i in MOVEMENT_ACTIONS.size():
         if Input.is_action_just_pressed(MOVEMENT_ACTIONS[i]):
-            # Only make any changes for adjacent keys being pressed (modulo 4)
-            if last_action_index == (i + 1) % MOVEMENT_ACTIONS.size():
-                speed_change = -1
-            elif last_action_index == (i - 1) % MOVEMENT_ACTIONS.size():
+            # Only make any changes for adjacent keys being pressed (modulo # of keys)
+            if last_action_index == null or i == posmod(last_action_index + 1,  MOVEMENT_ACTIONS.size()):
                 speed_change = 1
+            elif last_action_index == null or i == posmod(last_action_index - 1, MOVEMENT_ACTIONS.size()):
+                speed_change = -1
             else:
+                print("last index: ", last_action_index, ", current: ", i)
                 # Accelerate towards v=0
                 speed_change = 0
 
             last_action_index = i
+
+            accelerated.emit(MOVEMENT_ACTIONS[i], speed_change == 0)
 
     if speed_change != null:
         match acceleration_direction:

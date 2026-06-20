@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://u3vi6bqilpgx"]
+
+[ext_resource type="Script" uid="uid://dw5mdhvfooen3" path="res://ui/direction_indicator.gd" id="1_8jc8u"]
+[ext_resource type="Texture2D" uid="uid://dintsn5npwr5r" path="res://assets/arrow.png" id="2_rqf4a"]
+
+[node name="DirectionIndicator" type="Control" unique_id=1578062171]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8jc8u")
+
+[node name="Vertical" type="VBoxContainer" parent="." unique_id=1119028675]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 516.0
+grow_horizontal = 0
+
+[node name="Down" type="TextureRect" parent="Vertical" unique_id=162765995]
+layout_mode = 2
+texture = ExtResource("2_rqf4a")
+
+[node name="Up" type="TextureRect" parent="Vertical" unique_id=1257589076]
+layout_mode = 2
+texture = ExtResource("2_rqf4a")
+flip_v = true
+
+[node name="Horizontal" type="VBoxContainer" parent="." unique_id=1927208237]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_right = 257.0
+offset_bottom = 516.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+
+[node name="Down" type="TextureRect" parent="Horizontal" unique_id=300795526]
+layout_mode = 2
+texture = ExtResource("2_rqf4a")
+
+[node name="Up" type="TextureRect" parent="Horizontal" unique_id=1706880051]
+layout_mode = 2
+texture = ExtResource("2_rqf4a")
+flip_v = true

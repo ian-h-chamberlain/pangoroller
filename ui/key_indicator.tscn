@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://b1yfhq04yious"]
+
+[ext_resource type="Script" uid="uid://y41ccqqsfb4m" path="res://ui/key_indicator.gd" id="1_6yhjp"]
+[ext_resource type="Texture2D" uid="uid://hnup1kufe7ev" path="res://assets/key.png" id="2_htrlj"]
+
+[sub_resource type="Animation" id="Animation_lv6jj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_bosw5"]
+resource_name = "fade_out"
+length = 0.6
+step = 0.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.01, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.6, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lv6jj"]
+_data = {
+&"RESET": SubResource("Animation_lv6jj"),
+&"fade_out": SubResource("Animation_bosw5")
+}
+
+[node name="KeyIndicator" type="TextureRect" unique_id=1562719532]
+offset_right = 256.0
+offset_bottom = 256.0
+texture = ExtResource("2_htrlj")
+script = ExtResource("1_6yhjp")
+speed_color = Color(0, 1, 0.20000005, 1)
+slow_color = Color(1, 0, 0.015686275, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1320542167]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "K"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1168532073]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.4833331, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2111091038]
+root_node = NodePath("../ColorRect")
+libraries/ = SubResource("AnimationLibrary_lv6jj")

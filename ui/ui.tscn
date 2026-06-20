@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://ixfcv424n7a7"]
+
+[ext_resource type="PackedScene" uid="uid://b1yfhq04yious" path="res://ui/key_indicator.tscn" id="1_nb4k0"]
+[ext_resource type="Script" uid="uid://dtegc7i7jpcgl" path="res://ui/ui.gd" id="1_wl5ax"]
+[ext_resource type="PackedScene" uid="uid://u3vi6bqilpgx" path="res://ui/direction_indicator.tscn" id="2_ks8t7"]
+
+[node name="UI" type="Control" unique_id=205198545]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1787, 1250)
+script = ExtResource("1_wl5ax")
+metadata/_edit_horizontal_guides_ = [24.0]
+metadata/_edit_vertical_guides_ = [24.0]
+
+[node name="Keys" type="HBoxContainer" parent="." unique_id=885200373]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 1060.0
+offset_bottom = 280.0
+scale = Vector2(0.6800003, 0.6800003)
+
+[node name="H" parent="Keys" unique_id=1856443484 instance=ExtResource("1_nb4k0")]
+layout_mode = 2
+action = &"movement_0"
+
+[node name="J" parent="Keys" unique_id=401143772 instance=ExtResource("1_nb4k0")]
+layout_mode = 2
+action = &"movement_1"
+
+[node name="K" parent="Keys" unique_id=778926125 instance=ExtResource("1_nb4k0")]
+layout_mode = 2
+action = &"movement_2"
+
+[node name="L" parent="Keys" unique_id=179716220 instance=ExtResource("1_nb4k0")]
+layout_mode = 2
+action = &"movement_3"
+
+[node name="DirectionIndicator" parent="." unique_id=1578062171 instance=ExtResource("2_ks8t7")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 1
+scale = Vector2(0.7, 0.7)
