@@ -1,10 +1,12 @@
+class_name Player
 extends CharacterBody3D
 
 @export var acceleration = 0.75
-@export var slowing_coefficient = 2;
+@export var braking_factor = 2
+@export var friction = 0.1
 @export var acceleration_direction =  Direction.EAST
 
-signal direction_changed(is_horizontal: bool)
+signal direction_changed(new_direction: Direction)
 signal accelerated(action_name: StringName, is_slowing: bool)
 
 enum Direction {
@@ -71,9 +73,11 @@ func _physics_process(delta):
 
     if not is_on_floor():
         velocity += get_gravity() * delta
-        speed_change = null
-
-    if speed_change != null:
+    elif speed_change == null:
+        # This isn't really mathematically correct friction, but it's really just
+        # meant to act as a way to dampen existing velocity after switching directions
+        velocity -= velocity.normalized() * delta * friction
+    else:
         match acceleration_direction:
             Direction.NORTH:
                 if speed_change != 0:
