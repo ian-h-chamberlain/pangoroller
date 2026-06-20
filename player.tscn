@@ -15,6 +15,7 @@ stencil_flags = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=474677334]
 script = ExtResource("1_4flbx")
+acceleration = 0.9
 friction = 1.75
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
@@ -48,12 +49,5 @@ script = ExtResource("3_i3pqv")
 target_distance = 7.0
 target_height = 8.0
 speed = 2.5
-
-[node name="Marker3D" type="Marker3D" parent="Camera3D" unique_id=2052268985]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.536743e-07, 5.3878803, 5.682301)
-
-[node name="Camera3D" type="Camera3D" parent="Camera3D/Marker3D" unique_id=650239240]
-transform = Transform3D(1, 0, 0, 0, 0.7446145, 0.6674948, 0, -0.6674948, 0.7446145, 9.536743e-07, 0.08917713, 0.046055317)
-script = ExtResource("3_i3pqv")
 
 [connection signal="direction_changed" from="." to="Camera3D" method="_on_player_direction_changed"]

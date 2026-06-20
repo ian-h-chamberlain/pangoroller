@@ -5,8 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://ixfcv424n7a7" path="res://ui/ui.tscn" id="3_7mycd"]
 [ext_resource type="PackedScene" uid="uid://c0xn3do08j8ma" path="res://level.tscn" id="4_272bh"]
 
-[node name="Root" type="Node" unique_id=587381975]
+[sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
+size = Vector3(110, 25, 90)
+
+[node name="Root" type="Node" unique_id=587381975 node_paths=PackedStringArray("player")]
 script = ExtResource("1_1bvp3")
+player = NodePath("Player")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=958903360]
 transform = Transform3D(1, 0, 0, 0, -0.70710677, 0.70710677, 0, -0.70710677, -0.70710677, 0, 30, 0)
@@ -19,5 +23,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0597868, 30.218203)
 
 [node name="Level" parent="." unique_id=437623095 instance=ExtResource("4_272bh")]
 
+[node name="WorldBoundary" type="Area3D" parent="." unique_id=2009548450]
+
+[node name="BoundingBox" type="CollisionShape3D" parent="WorldBoundary" unique_id=1467866055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1227303, 0.85401344, -3.7123566)
+shape = SubResource("BoxShape3D_1bvp3")
+
 [connection signal="accelerated" from="Player" to="UI" method="_on_player_accelerated"]
 [connection signal="direction_changed" from="Player" to="UI" method="_on_player_direction_changed"]
+[connection signal="body_exited" from="WorldBoundary" to="." method="_on_world_boundary_body_exited"]
