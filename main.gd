@@ -15,3 +15,5 @@ func _on_world_boundary_body_exited(body: Node3D):
         # Reset the player to start
         $Player.transform = initial_player_transform
         $Player.velocity = Vector3.ZERO
+        $Player.begun = false
+        $UI.timer_reset.emit()

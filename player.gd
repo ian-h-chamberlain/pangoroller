@@ -8,6 +8,9 @@ extends CharacterBody3D
 
 signal direction_changed(new_direction: Direction)
 signal accelerated(action_name: StringName, is_slowing: bool)
+signal begin_play()
+
+var begun = false
 
 enum Direction {
     NORTH,
@@ -35,6 +38,10 @@ func _physics_process(delta):
         print("Changing acceleration_direction: ", self.acceleration_direction)
 
     if is_on_floor():
+        if not begun:
+            begun = true
+            begin_play.emit()
+
         # Rotate the direction indicator to the correct axis, but use the floor surface
         # normal so it (mostly) doesn't clip through the floor.
         var look_direction: Vector3

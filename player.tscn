@@ -14,9 +14,11 @@ stencil_flags = 2
 [sub_resource type="SphereShape3D" id="SphereShape3D_sh265"]
 
 [node name="Player" type="CharacterBody3D" unique_id=474677334]
+wall_min_slide_angle = 0.5235988
+floor_stop_on_slope = false
 script = ExtResource("1_4flbx")
 acceleration = 0.9
-friction = 1.75
+friction = 1.25
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
 mesh = SubResource("SphereMesh_sh265")
