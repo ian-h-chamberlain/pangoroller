@@ -3,7 +3,7 @@ extends Control
 signal player_accelerated(action_name: StringName, is_slowing: bool)
 
 func _ready():
-    for child in $Keys.get_children():
+    for child in $Keys/Horizontal.get_children():
         var indicator = child as KeyIndicator
         if indicator:
             player_accelerated.connect(indicator.on_player_accelerated)

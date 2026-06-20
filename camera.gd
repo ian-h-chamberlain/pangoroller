@@ -8,5 +8,5 @@ func _ready():
     pos_delta = player.position - self.position
 
 
-func _process(_delta):
-    self.position = player.position + self.pos_delta
+# func _process(_delta):
+#     self.position = player.position + self.pos_delta

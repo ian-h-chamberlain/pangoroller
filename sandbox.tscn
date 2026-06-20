@@ -4,41 +4,29 @@
 [ext_resource type="Script" uid="uid://o8ocnmbb2ehs" path="res://main.gd" id="1_cojph"]
 [ext_resource type="Script" uid="uid://bc5fa4cgv3a81" path="res://camera.gd" id="3_p7lbm"]
 [ext_resource type="PackedScene" uid="uid://ixfcv424n7a7" path="res://ui/ui.tscn" id="4_rvmsc"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_f3bkm"]
-size = Vector3(50, 2, 50)
-
-[sub_resource type="BoxMesh" id="BoxMesh_f3bkm"]
-size = Vector3(50, 2, 50)
+[ext_resource type="PackedScene" uid="uid://c0xn3do08j8ma" path="res://level.tscn" id="5_rjrbw"]
 
 [node name="Root" type="Node" unique_id=587381975]
 script = ExtResource("1_cojph")
-
-[node name="Floor" type="StaticBody3D" parent="." unique_id=1975289298]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1415282636]
-shape = SubResource("BoxShape3D_f3bkm")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=150849582]
-mesh = SubResource("BoxMesh_f3bkm")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=958903360]
 transform = Transform3D(1, 0, 0, 0, -0.70710677, 0.70710677, 0, -0.70710677, -0.70710677, 0, 30, 0)
 shadow_enabled = true
 
 [node name="Player" parent="." unique_id=474677334 instance=ExtResource("1_3h184")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0597868, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0597868, 30.218203)
 
-[node name="Marker3D" type="Marker3D" parent="." unique_id=204972563]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.536743e-07, 6.447667, 5.682301)
+[node name="Marker3D" type="Marker3D" parent="Player" unique_id=204972563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.536743e-07, 5.3878803, 5.682301)
 
-[node name="Camera3D" type="Camera3D" parent="Marker3D" unique_id=61148258 node_paths=PackedStringArray("player")]
+[node name="Camera3D" type="Camera3D" parent="Player/Marker3D" unique_id=61148258 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.7446145, 0.6674948, 0, -0.6674948, 0.7446145, 9.536743e-07, 0.08917713, 0.046055317)
 script = ExtResource("3_p7lbm")
-player = NodePath("../../Player")
+player = NodePath("../..")
 
 [node name="UI" parent="." unique_id=205198545 instance=ExtResource("4_rvmsc")]
+
+[node name="Level" parent="." unique_id=437623095 instance=ExtResource("5_rjrbw")]
 
 [connection signal="accelerated" from="Player" to="UI" method="_on_player_accelerated"]
 [connection signal="direction_changed" from="Player" to="UI/DirectionIndicator" method="_on_player_direction_changed"]
