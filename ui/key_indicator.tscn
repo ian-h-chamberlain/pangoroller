@@ -29,7 +29,7 @@ tracks/0/path = NodePath(".:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-0.01, 0.5),
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.6, 0.0]
@@ -41,38 +41,35 @@ _data = {
 &"fade_out": SubResource("Animation_bosw5")
 }
 
-[node name="KeyIndicator" type="TextureRect" unique_id=1562719532]
+[node name="KeyIndicator" type="PanelContainer" unique_id=1660506338]
 offset_right = 256.0
 offset_bottom = 256.0
-texture = ExtResource("2_htrlj")
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_6yhjp")
-speed_color = Color(0, 1, 0.20000005, 1)
-slow_color = Color(1, 0, 0.015686275, 1)
-
-[node name="Label" type="Label" parent="." unique_id=1320542167]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.0
-offset_right = 20.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "K"
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1168532073]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0.4833331, 1, 0)
+speed_color = Color(0, 1, 0.19607843, 1)
+slow_color = Color(1, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2111091038]
 root_node = NodePath("../ColorRect")
 libraries/ = SubResource("AnimationLibrary_lv6jj")
+
+[node name="Texture" type="NinePatchRect" parent="." unique_id=1345054434]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("2_htrlj")
+region_rect = Rect2(0, 0, 256, 256)
+patch_margin_left = 36
+patch_margin_top = 36
+patch_margin_right = 36
+patch_margin_bottom = 36
+
+[node name="Label" type="Label" parent="." unique_id=1320542167]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "K"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1168532073]
+layout_mode = 2
+color = Color(0, 0.4833331, 1, 0)

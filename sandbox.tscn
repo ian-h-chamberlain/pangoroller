@@ -29,4 +29,4 @@ player = NodePath("../..")
 [node name="Level" parent="." unique_id=437623095 instance=ExtResource("5_rjrbw")]
 
 [connection signal="accelerated" from="Player" to="UI" method="_on_player_accelerated"]
-[connection signal="direction_changed" from="Player" to="UI/DirectionIndicator" method="_on_player_direction_changed"]
+[connection signal="direction_changed" from="Player" to="UI" method="_on_player_direction_changed"]

@@ -6,11 +6,13 @@ extends Control
 
 @export var speed_color: Color
 @export var slow_color: Color
+@export var update_label: bool = true
 
 @onready var animation: AnimationPlayer = $AnimationPlayer
 
 func _ready():
-    $Label.text = InputMap.action_get_events(action)[0].as_text().split()[0]
+    if update_label:
+        $Label.text = InputMap.action_get_events(action)[0].as_text().split()[0]
 
 func on_player_accelerated(action_name: StringName, is_slowing: bool):
     if action != action_name:
@@ -21,5 +23,10 @@ func on_player_accelerated(action_name: StringName, is_slowing: bool):
     else:
         $ColorRect.color = speed_color
 
+    animation.stop()
+    animation.play("fade_out")
+
+func on_direction_changed(_is_horizontal: bool):
+    $ColorRect.color = speed_color
     animation.stop()
     animation.play("fade_out")

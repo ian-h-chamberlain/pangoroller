@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b1yfhq04yious" path="res://ui/key_indicator.tscn" id="1_nb4k0"]
 [ext_resource type="Script" uid="uid://dtegc7i7jpcgl" path="res://ui/ui.gd" id="1_wl5ax"]
-[ext_resource type="PackedScene" uid="uid://u3vi6bqilpgx" path="res://ui/direction_indicator.tscn" id="2_ks8t7"]
 [ext_resource type="Texture2D" uid="uid://hnup1kufe7ev" path="res://assets/key.png" id="3_vkava"]
+[ext_resource type="Texture2D" uid="uid://dintsn5npwr5r" path="res://assets/arrow.png" id="4_vkava"]
 
 [node name="UI" type="Control" unique_id=205198545]
 layout_mode = 3
@@ -12,28 +12,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = 0.002127752
 scale = Vector2(1, 1.0010408)
 pivot_offset = Vector2(1787, 1250)
 script = ExtResource("1_wl5ax")
 metadata/_edit_horizontal_guides_ = [24.0]
 metadata/_edit_vertical_guides_ = [24.0]
 
-[node name="DirectionIndicator" parent="." unique_id=1578062171 instance=ExtResource("2_ks8t7")]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 1
-scale = Vector2(0.7, 0.7)
-
 [node name="Keys" type="VBoxContainer" parent="." unique_id=476570552]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-scale = Vector2(0.54768956, 0.54768956)
 
 [node name="Horizontal" type="HBoxContainer" parent="Keys" unique_id=885200373]
 layout_mode = 2
@@ -54,12 +43,94 @@ action = &"movement_2"
 layout_mode = 2
 action = &"movement_3"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Keys" unique_id=1177972338]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1562490001]
 visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -750.0
+offset_bottom = 128.0
+grow_horizontal = 0
+
+[node name="Spacebar" type="NinePatchRect" parent="PanelContainer" unique_id=1177972338]
+custom_minimum_size = Vector2(750, 128)
 layout_mode = 2
+size_flags_horizontal = 4
 texture = ExtResource("3_vkava")
 region_rect = Rect2(0, 0, 256, 256)
 patch_margin_left = 36
 patch_margin_top = 36
 patch_margin_right = 36
 patch_margin_bottom = 36
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/Spacebar" unique_id=798843393]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -331.0
+offset_top = -85.5
+offset_right = 331.0
+offset_bottom = 85.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="Label" type="Label" parent="PanelContainer/Spacebar/MarginContainer" unique_id=1393461216]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Change direction"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Spacebar" unique_id=557652045]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Up" type="TextureRect" parent="PanelContainer/Spacebar/HBoxContainer" unique_id=1828141449]
+layout_mode = 2
+texture = ExtResource("4_vkava")
+
+[node name="Down" type="TextureRect" parent="PanelContainer/Spacebar/HBoxContainer" unique_id=1935538443]
+layout_mode = 2
+texture = ExtResource("4_vkava")
+flip_v = true
+
+[node name="Left" type="TextureRect" parent="PanelContainer/Spacebar/HBoxContainer" unique_id=2089955527]
+layout_mode = 2
+texture = ExtResource("4_vkava")
+
+[node name="Right" type="TextureRect" parent="PanelContainer/Spacebar/HBoxContainer" unique_id=1729289991]
+layout_mode = 2
+texture = ExtResource("4_vkava")
+
+[node name="KeyIndicator" parent="." unique_id=1660506338 instance=ExtResource("1_nb4k0")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -750.0
+offset_right = 0.0
+offset_bottom = 128.0
+grow_horizontal = 0
+action = &"reorient"
+update_label = false
+
+[node name="Texture" parent="KeyIndicator" index="1" unique_id=1345054434]
+custom_minimum_size = Vector2(750, 128)
+
+[node name="Label" parent="KeyIndicator" index="2" unique_id=1320542167]
+text = "Change direction"
+
+[connection signal="direction_changed" from="." to="KeyIndicator" method="on_direction_changed"]
+
+[editable path="KeyIndicator"]
