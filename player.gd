@@ -97,4 +97,15 @@ func _physics_process(delta):
                 else:
                     velocity.x += acceleration * -sign(velocity.x)
 
+
     move_and_slide()
+
+
+func _process(delta):
+    # Give the appearance of rolling, but we don't actually need to change our collider,
+    # so we can just rotate the mesh. This also prevents the other children from being rotated
+    # (e.g. direction indicators, camera)
+    $PlayerMesh.rotate(
+        velocity.cross(Vector3.DOWN).normalized(),
+        delta * velocity.length() / PI,
+    )

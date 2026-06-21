@@ -17,3 +17,4 @@ func _on_world_boundary_body_exited(body: Node3D):
         $Player.velocity = Vector3.ZERO
         $Player.begun = false
         $UI.timer_reset.emit()
+        $UI.timer_pause.emit()

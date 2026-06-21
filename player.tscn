@@ -6,35 +6,36 @@
 [ext_resource type="Script" uid="uid://bc5fa4cgv3a81" path="res://camera.gd" id="3_i3pqv"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_sh265"]
-radial_segments = 512
-rings = 512
+radius = 1.0
+height = 2.0
+radial_segments = 256
+rings = 256
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sweqy"]
 render_priority = 0
 shader = ExtResource("2_hqtel")
 shader_parameter/base_color = Color(0.5740597, 0.41312015, 0.15847233, 1)
 shader_parameter/inner_color = Color(0.25374317, 0.17402247, 0.047084033, 1)
-shader_parameter/edge_width = 0.01
-shader_parameter/scale_size = 0.09
-shader_parameter/scale_depth = 0.02
+shader_parameter/edge_width = 0.014
+shader_parameter/scale_size = 0.063
+shader_parameter/scale_depth = 0.015
 shader_parameter/rotation = 0.795
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_sh265"]
+radius = 1.0
 
 [node name="Player" type="CharacterBody3D" unique_id=474677334]
-wall_min_slide_angle = 0.5235988
+wall_min_slide_angle = 0.87266463
 floor_stop_on_slope = false
 script = ExtResource("1_4flbx")
 acceleration = 0.9
 friction = 1.25
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06325695, -0.018603742, 0.052291036)
 mesh = SubResource("SphereMesh_sh265")
 surface_material_override/0 = SubResource("ShaderMaterial_sweqy")
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="." unique_id=1552410295]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0027552545)
 shape = SubResource("SphereShape3D_sh265")
 
 [node name="DirectionIndicator" type="Node3D" parent="." unique_id=63402207]
