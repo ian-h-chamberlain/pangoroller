@@ -26,7 +26,8 @@ func on_player_accelerated(action_name: StringName, is_slowing: bool):
     animation.stop()
     animation.play("fade_out")
 
-func on_direction_changed(_direction: Player.Direction):
+
+func _on_direction_changed(_direction: Player.Direction):
     $ColorRect.color = speed_color
     animation.stop()
     animation.play("fade_out")

@@ -10,8 +10,8 @@ albedo_color = Color(0.25374317, 0.17402247, 0.047084033, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_hqtel"]
 material = SubResource("StandardMaterial3D_hqtel")
-radius = 0.9
-height = 1.8
+radius = 0.95
+height = 1.9
 
 [sub_resource type="SphereMesh" id="SphereMesh_sh265"]
 radius = 1.0
@@ -33,11 +33,12 @@ shader_parameter/rotation = 0.795
 radius = 1.0
 
 [node name="Player" type="CharacterBody3D" unique_id=474677334]
-wall_min_slide_angle = 0.87266463
 floor_stop_on_slope = false
+floor_max_angle = 1.0471976
 script = ExtResource("1_4flbx")
 acceleration = 0.9
-friction = 1.25
+braking_factor = 3
+friction = 1.5
 
 [node name="InnerMesh" type="MeshInstance3D" parent="." unique_id=730344407]
 mesh = SubResource("SphereMesh_hqtel")
@@ -50,7 +51,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_sweqy")
 shape = SubResource("SphereShape3D_sh265")
 
 [node name="DirectionIndicator" type="Node3D" parent="." unique_id=63402207]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
 [node name="Forward" type="Sprite3D" parent="DirectionIndicator" unique_id=273762064]
 centered = false

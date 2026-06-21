@@ -1,111 +1,153 @@
 class_name Player
 extends CharacterBody3D
 
+## Acceleration of the player controller slide motion.
 @export var acceleration = 0.75
+## Coefficient of deceleration when "rolling" inputs are not pressed in order.
 @export var braking_factor = 2
+## Approximates a coefficient of friction (not physically accurate).
 @export var friction = 0.1
-@export var acceleration_direction =  Direction.EAST
+## How fast to interpolate the directional indicator to its target position.
+@export var indicator_speed = 5.0
 
+## The current axis that the player is controlling.
+@export var acceleration_axis = Direction.EAST:
+    set(v):
+        if v != acceleration_axis:
+            direction_changed.emit(v)
+        acceleration_axis = v
+
+## Emitted whenever the player presses the "change direction" action.
 signal direction_changed(new_direction: Direction)
+## Emitted when a user input for one of the four "motion" keys is pressed.
 signal accelerated(action_name: StringName, is_slowing: bool)
+## Emitted when play starts (i.e. to start the clock).
 signal begin_play()
 
-var begun = false
+var started_playing = false:
+    set(v):
+        if v and not started_playing:
+            begin_play.emit()
+        started_playing = v
+
+@onready var direction_indicator = $DirectionIndicator as Node3D
+@onready var initial_transform = self.transform
+@onready var indicator_initial_transform = $DirectionIndicator.transform
+
+const MOVEMENT_ACTIONS = ["movement_0", "movement_1", "movement_2", "movement_3"]
+var last_action_index = null
 
 enum Direction {
     NORTH,
     EAST
 }
 
-const MOVEMENT_ACTIONS = ["movement_0", "movement_1", "movement_2", "movement_3"]
 
-var last_action_index = null
+## Move the player back to starting position, reset timers, orientation etc.
+func reset():
+    transform = initial_transform
+    velocity = Vector3.ZERO
+    started_playing = false
+    direction_indicator.transform = indicator_initial_transform
+    acceleration_axis = Direction.EAST
 
-@onready var direction_indicator = $DirectionIndicator as Node3D
 
 func _physics_process(delta):
     if Input.is_action_just_pressed("reorient"):
-        match self.acceleration_direction:
-            Direction.NORTH:
-                self.acceleration_direction = Direction.EAST
-                direction_indicator.rotate(Vector3.UP, PI / 2)
-            Direction.EAST:
-                self.acceleration_direction = Direction.NORTH
-                direction_indicator.rotate(Vector3.UP, PI / 2)
-
-        direction_changed.emit(self.acceleration_direction == Direction.EAST)
-
-        print("Changing acceleration_direction: ", self.acceleration_direction)
+        _change_orientation()
 
     if is_on_floor():
-        if not begun:
-            begun = true
-            begin_play.emit()
+        # Don't start timer logic etc. until we've hit the ground for the first time
+        if not started_playing:
+            started_playing = true
 
-        # Rotate the direction indicator to the correct axis, but use the floor surface
-        # normal so it (mostly) doesn't clip through the floor.
-        var look_direction: Vector3
-        match self.acceleration_direction:
-            Direction.NORTH:
-                look_direction = Vector3.FORWARD
-            Direction.EAST:
-                look_direction = Vector3.RIGHT
+        _update_direction_indicator(delta)
 
-        # Project the look direction onto the normal plane, and use that for our rotation
-        look_direction = look_direction.slide(get_floor_normal());
-        direction_indicator.transform = direction_indicator.transform.looking_at(look_direction, get_floor_normal())
+        var velocity_change := _handle_movement_input()
+        if velocity_change == Vector3.ZERO:
+            # This isn't really mathematically correct friction, but it's really just
+            # meant to act as a way to dampen existing velocity after switching directions
+            velocity -= velocity.normalized() * delta * friction
+        else:
+            velocity += velocity_change
     else:
-        match self.acceleration_direction:
-            Direction.NORTH:
-                direction_indicator.rotation = Vector3.ZERO
-            Direction.EAST:
-                direction_indicator.rotation = Vector3(0, PI/2, 0)
-
-    var speed_change = null
-    for i in MOVEMENT_ACTIONS.size():
-        if Input.is_action_just_pressed(MOVEMENT_ACTIONS[i]):
-            # Only make any changes for adjacent keys being pressed (modulo # of keys)
-            if last_action_index == null or i == posmod(last_action_index + 1,  MOVEMENT_ACTIONS.size()):
-                speed_change = 1
-            elif last_action_index == null or i == posmod(last_action_index - 1, MOVEMENT_ACTIONS.size()):
-                speed_change = -1
-            else:
-                print("last index: ", last_action_index, ", current: ", i)
-                # Accelerate towards v=0
-                speed_change = 0
-
-            last_action_index = i
-
-            accelerated.emit(MOVEMENT_ACTIONS[i], speed_change == 0)
-
-    if not is_on_floor():
+        # User input / friction has no effect when in the air
         velocity += get_gravity() * delta
-    elif speed_change == null:
-        # This isn't really mathematically correct friction, but it's really just
-        # meant to act as a way to dampen existing velocity after switching directions
-        velocity -= velocity.normalized() * delta * friction
-    else:
-        match acceleration_direction:
-            Direction.NORTH:
-                if speed_change != 0:
-                    velocity.z += acceleration * -speed_change
-                else:
-                    velocity.z += acceleration * -sign(velocity.z)
-            Direction.EAST:
-                if speed_change != 0:
-                    velocity.x += acceleration * speed_change
-                else:
-                    velocity.x += acceleration * -sign(velocity.x)
 
-
+    # Run the builtin character controller physics handler
     move_and_slide()
 
-
-func _process(delta):
     # Give the appearance of rolling, but we don't actually need to change our collider,
     # so we can just rotate the mesh. This also prevents the other children from being rotated
     # (e.g. direction indicators, camera)
-    $PlayerMesh.rotate(
-        velocity.cross(Vector3.DOWN).normalized(),
-        delta * velocity.length() / PI,
-    )
+    var axis = velocity.cross(Vector3.DOWN).normalized()
+    if axis != Vector3.ZERO:
+        $PlayerMesh.rotate(axis, delta * velocity.length() / PI)
+
+
+## Toggle the axis the player is accelerating along
+func _change_orientation() -> void:
+    var angle = PI / 2
+
+    match self.acceleration_axis:
+        Direction.NORTH:
+            self.acceleration_axis = Direction.EAST
+            angle *= -1.0
+        Direction.EAST:
+            self.acceleration_axis = Direction.NORTH
+
+    direction_indicator.rotate(Vector3.UP, angle)
+
+
+## Reorient the directional indicator according to the current acceleration axis.
+## The floor normal is used to help prevent too much clipping of the arrows into the floor.
+func _update_direction_indicator(delta: float) -> void:
+    var look_direction = _direction_to_vector(self.acceleration_axis)
+
+    # Project the look direction onto the normal plane, and use that for indicator's rotation
+    look_direction = look_direction.slide(get_floor_normal());
+    var target_transform = direction_indicator.transform.looking_at(look_direction, get_floor_normal())
+    direction_indicator.transform = direction_indicator.transform.interpolate_with(target_transform, indicator_speed * delta)
+
+
+## Check for "rolling" movement on the keyboard; returns a normalized direction vector
+## which indicates which way to apply acceleration.
+func _handle_movement_input() -> Vector3:
+    var accel_direction := Vector3.ZERO
+
+    # Check all the inputs
+    for i in MOVEMENT_ACTIONS.size():
+        if Input.is_action_just_pressed(MOVEMENT_ACTIONS[i]):
+            var is_slowing := false
+
+            if last_action_index == null:
+                last_action_index = i
+                break
+
+            # Only make any changes for adjacent keys being pressed (modulo # of keys)
+            if i == posmod(last_action_index + 1, MOVEMENT_ACTIONS.size()):
+                accel_direction = _direction_to_vector(acceleration_axis) * acceleration
+            elif i == posmod(last_action_index - 1, MOVEMENT_ACTIONS.size()):
+                accel_direction = -_direction_to_vector(acceleration_axis) * acceleration
+            else:
+                # The player "messed up", accelerate towards v=0
+                accel_direction = -velocity.normalized() * braking_factor
+                is_slowing = true
+
+            last_action_index = i
+            accelerated.emit(MOVEMENT_ACTIONS[i], is_slowing)
+            break
+
+    return accel_direction
+
+
+## Convert Direction to a world-space axis vector.
+static func _direction_to_vector(direction: Direction) -> Vector3:
+    match direction:
+        Direction.EAST:
+            return Vector3.RIGHT
+        Direction.NORTH:
+            return Vector3.FORWARD
+
+    assert(false, "unexpected direction %s" % direction)
+    return Vector3.ZERO

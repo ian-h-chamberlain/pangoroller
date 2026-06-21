@@ -1,9 +1,12 @@
 extends Camera3D
 
+## The axis the player is currently controlling.
 @export var direction: Player.Direction = Player.Direction.EAST
+## Horizontal distance from the player the camera should be.
 @export var target_distance: float = 6
+## Height from the player the camera should be.
 @export var target_height: float = 6
-
+## How fast to move the camera between targets (e.g. when direction changes).
 @export var speed: float = 2
 
 func _process(delta):

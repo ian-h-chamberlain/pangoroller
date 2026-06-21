@@ -64,7 +64,7 @@ theme_override_constants/outline_size = 10
 text = "0:00.000"
 script = ExtResource("3_wl5ax")
 
-[connection signal="direction_changed" from="." to="Header/KeyIndicator" method="on_direction_changed"]
+[connection signal="direction_changed" from="." to="Header/KeyIndicator" method="_on_direction_changed"]
 [connection signal="timer_pause" from="." to="Timer" method="_on_ui_timer_pause"]
 [connection signal="timer_reset" from="." to="Timer" method="_on_ui_timer_reset"]
 
