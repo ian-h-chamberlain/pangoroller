@@ -4,6 +4,7 @@ extends Node
 
 @onready var initial_player_transform: Transform3D = $Player.transform
 
+
 func _process(_delta):
     # Allow players to quit from desktop application easily
     if Input.is_action_just_pressed("quit") and OS.has_feature("pc"):

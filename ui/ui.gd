@@ -5,6 +5,7 @@ signal direction_changed(direction: Player.Direction)
 signal timer_reset()
 signal timer_pause()
 
+
 func _ready():
     # Wire up the various input actions to be displayed in the UI
     for child in $Header/Keys.get_children():

@@ -9,6 +9,7 @@ extends Camera3D
 ## How fast to move the camera between targets (e.g. when direction changes).
 @export var speed: float = 2
 
+
 func _process(delta):
     var target = Vector3(0, target_height, 0)
 
@@ -21,6 +22,7 @@ func _process(delta):
     # Lerp towards the target position
     position = position.lerp(target, delta * speed)
     look_at(get_parent().position)
+
 
 func _on_player_direction_changed(new_direction):
     direction = new_direction

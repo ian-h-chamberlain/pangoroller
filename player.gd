@@ -39,7 +39,7 @@ var last_action_index = null
 
 enum Direction {
     NORTH,
-    EAST
+    EAST,
 }
 
 
@@ -105,7 +105,7 @@ func _update_direction_indicator(delta: float) -> void:
     var look_direction = _direction_to_vector(self.acceleration_axis)
 
     # Project the look direction onto the normal plane, and use that for indicator's rotation
-    look_direction = look_direction.slide(get_floor_normal());
+    look_direction = look_direction.slide(get_floor_normal())
     var target_transform = direction_indicator.transform.looking_at(look_direction, get_floor_normal())
     direction_indicator.transform = direction_indicator.transform.interpolate_with(target_transform, indicator_speed * delta)
 
