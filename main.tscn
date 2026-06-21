@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://dumrmo2083uci"]
 
 [ext_resource type="Script" uid="uid://o8ocnmbb2ehs" path="res://main.gd" id="1_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://5vdpfdtf30qj" path="res://player.tscn" id="2_lquwl"]
+[ext_resource type="PackedScene" uid="uid://5vdpfdtf30qj" path="res://characters/player.tscn" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://ixfcv424n7a7" path="res://ui/ui.tscn" id="3_7mycd"]
-[ext_resource type="PackedScene" uid="uid://c0xn3do08j8ma" path="res://level.tscn" id="4_272bh"]
-[ext_resource type="Script" uid="uid://hj74x3ln881q" path="res://finish_line.gd" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://c0xn3do08j8ma" path="res://levels/track.tscn" id="4_272bh"]
+[ext_resource type="Script" uid="uid://hj74x3ln881q" path="res://levels/finish_line.gd" id="5_lquwl"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1bvp3"]
 ground_bottom_color = Color(0.25651547, 0.31176543, 0.38538215, 1)

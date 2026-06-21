@@ -14,7 +14,7 @@ _data = {
 }
 point_count = 12
 
-[node name="Level" type="StaticBody3D" unique_id=437623095]
+[node name="Track" type="StaticBody3D" unique_id=437623095]
 
 [node name="CSGTrack" type="CSGPolygon3D" parent="." unique_id=557520726]
 visible = false
