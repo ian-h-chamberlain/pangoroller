@@ -44,14 +44,6 @@ action = &"movement_2"
 layout_mode = 2
 action = &"movement_3"
 
-[node name="Timer" type="Label" parent="Header" unique_id=474209912]
-layout_mode = 2
-size_flags_horizontal = 6
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
-text = "0:00.000"
-script = ExtResource("3_wl5ax")
-
 [node name="KeyIndicator" parent="Header" unique_id=1660506338 instance=ExtResource("1_nb4k0")]
 layout_mode = 2
 size_flags_horizontal = 8
@@ -64,8 +56,16 @@ custom_minimum_size = Vector2(750, 128)
 [node name="Label" parent="Header/KeyIndicator" index="2" unique_id=1320542167]
 text = "Change direction"
 
+[node name="Timer" type="Label" parent="." unique_id=474209912]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+text = "0:00.000"
+script = ExtResource("3_wl5ax")
+
 [connection signal="direction_changed" from="." to="Header/KeyIndicator" method="on_direction_changed"]
-[connection signal="timer_pause" from="." to="Header/Timer" method="_on_ui_timer_pause"]
-[connection signal="timer_reset" from="." to="Header/Timer" method="_on_ui_timer_reset"]
+[connection signal="timer_pause" from="." to="Timer" method="_on_ui_timer_pause"]
+[connection signal="timer_reset" from="." to="Timer" method="_on_ui_timer_reset"]
 
 [editable path="Header/KeyIndicator"]

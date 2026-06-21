@@ -5,6 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://dintsn5npwr5r" path="res://assets/arrow.png" id="2_onrkg"]
 [ext_resource type="Script" uid="uid://bc5fa4cgv3a81" path="res://camera.gd" id="3_i3pqv"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqtel"]
+albedo_color = Color(0.25374317, 0.17402247, 0.047084033, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hqtel"]
+material = SubResource("StandardMaterial3D_hqtel")
+radius = 0.9
+height = 1.8
+
 [sub_resource type="SphereMesh" id="SphereMesh_sh265"]
 radius = 1.0
 height = 2.0
@@ -30,6 +38,9 @@ floor_stop_on_slope = false
 script = ExtResource("1_4flbx")
 acceleration = 0.9
 friction = 1.25
+
+[node name="InnerMesh" type="MeshInstance3D" parent="." unique_id=730344407]
+mesh = SubResource("SphereMesh_hqtel")
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
 mesh = SubResource("SphereMesh_sh265")
