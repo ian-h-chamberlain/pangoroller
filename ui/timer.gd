@@ -7,7 +7,10 @@ var is_running = false
 func _process(delta_seconds):
     if is_running:
         elapsed_msec += 1000 * delta_seconds
+
+        @warning_ignore("integer_division")
         var whole_min = int(elapsed_msec) / 60_000
+
         var sec = (elapsed_msec / 1000.0) - (whole_min * 60)
         self.text = "%d:%06.3f" % [whole_min, sec]
 
