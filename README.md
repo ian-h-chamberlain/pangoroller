@@ -1,5 +1,3 @@
-# Pangoroller
-
 This is a tiny game inspired by the likes of [QWOP](https://www.foddy.net/legacy/Athletics.html),
 [Sanicball](https://badgerson.itch.io/sanicball), and [Marble Blast](https://marbleblast.com/)!
 
@@ -13,3 +11,5 @@ This only works in two directions though! To change directions, the spacebar can
 
 Make your way around the track and see how fast you can complete it!
 Play it here: [Pangoroller](https://ian-h-chamberlain.com/pangoroller/play.html)
+
+Source code [on GitHub](https://github.com/ian-h-chamberlain/pangoroller).
