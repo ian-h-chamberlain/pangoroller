@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bc5fa4cgv3a81" path="res://characters/camera.gd" id="3_i3pqv"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_sh265"]
+lightmap_size_hint = Vector2i(33, 17)
 radius = 1.0
 height = 2.0
 radial_segments = 256
@@ -14,12 +15,13 @@ rings = 256
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sweqy"]
 render_priority = 0
 shader = ExtResource("2_hqtel")
-shader_parameter/base_color = Color(0.5740597, 0.41312015, 0.15847233, 1)
+shader_parameter/base_color = Color(0.64, 0.41279998, 0.18560001, 1)
 shader_parameter/inner_color = Color(0.25374317, 0.17402247, 0.047084033, 1)
-shader_parameter/edge_width = 0.014
-shader_parameter/scale_size = 0.063
-shader_parameter/scale_depth = 0.015
+shader_parameter/edge_width = 0.05
+shader_parameter/scale_size = 0.08
+shader_parameter/scale_depth = 0.05
 shader_parameter/rotation = 0.795
+shader_parameter/sharpness_threshold = 0.3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqtel"]
 albedo_color = Color(0.25374317, 0.17402247, 0.047084033, 1)
@@ -40,6 +42,7 @@ acceleration = 0.9
 friction = 1.5
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=1067886190]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("SphereMesh_sh265")
 surface_material_override/0 = SubResource("ShaderMaterial_sweqy")
 
