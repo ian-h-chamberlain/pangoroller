@@ -11,6 +11,7 @@ var times_finished = 0
 
 func _ready():
     body_entered.connect(_on_body_entered)
+    $Indicator/AnimationPlayer.play("point")
 
 
 func _on_body_entered(body: Node3D):
@@ -29,3 +30,8 @@ func _on_body_entered(body: Node3D):
 
     if times_finished > 0:
         finished_race.emit()
+
+
+func _on_world_boundary_body_exited(_body: Node3D):
+    # Resetting the world should start the finish line indicator anim again
+    $Indicator/AnimationPlayer.play("point")

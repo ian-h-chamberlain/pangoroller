@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ixfcv424n7a7" path="res://ui/ui.tscn" id="3_7mycd"]
 [ext_resource type="PackedScene" uid="uid://c0xn3do08j8ma" path="res://levels/track.tscn" id="4_272bh"]
 [ext_resource type="Script" uid="uid://hj74x3ln881q" path="res://levels/finish_line.gd" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dintsn5npwr5r" path="res://assets/arrow.png" id="6_7mycd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1bvp3"]
 ground_bottom_color = Color(0.25651547, 0.31176543, 0.38538215, 1)
@@ -31,6 +32,57 @@ height = 0.5
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
 blend_mode = 1
 albedo_color = Color(9.62615e-07, 0.8835526, 0.7702835, 1)
+
+[sub_resource type="Animation" id="Animation_7mycd"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.5, -0.5, 0.5)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_272bh"]
+resource_name = "point"
+length = 2.0333333
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.5, -0.5, 0.5, 0.5, 1, 1.4999995, -1.9821095, 0.5, 1, 1, 1.5, -0.5, 0.5, 1.5, 1, 1.4999995, -1.9821095, 0.5, 2, 1, 1.5, -0.5, 0.5)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5vw27"]
+_data = {
+&"RESET": SubResource("Animation_7mycd"),
+&"point": SubResource("Animation_272bh")
+}
 
 [node name="Root" type="Node" unique_id=587381975 node_paths=PackedStringArray("player")]
 script = ExtResource("1_1bvp3")
@@ -67,8 +119,21 @@ shape = SubResource("CylinderShape3D_1bvp3")
 mesh = SubResource("CylinderMesh_lquwl")
 surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
 
+[node name="Indicator" type="Sprite3D" parent="FinishLine" unique_id=2095452768]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 1.5, -0.5, 0.5)
+centered = false
+offset = Vector2(-128, 0)
+axis = 1
+render_priority = 1
+texture = ExtResource("6_7mycd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FinishLine/Indicator" unique_id=1677394788]
+libraries/ = SubResource("AnimationLibrary_5vw27")
+movie_quit_on_finish = true
+
 [connection signal="accelerated" from="Player" to="UI" method="_on_player_accelerated"]
 [connection signal="begin_play" from="Player" to="UI" method="_on_player_begin_play"]
 [connection signal="direction_changed" from="Player" to="UI" method="_on_player_direction_changed"]
 [connection signal="body_exited" from="WorldBoundary" to="." method="_on_world_boundary_body_exited"]
+[connection signal="body_exited" from="WorldBoundary" to="FinishLine" method="_on_world_boundary_body_exited"]
 [connection signal="finished_race" from="FinishLine" to="UI" method="_on_finish_line_finished_race"]
